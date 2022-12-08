@@ -14,7 +14,8 @@ namespace AOC22
         static void Main(string[] args)
         {
             Day1 d1 = new Day1();
-            d1.CollectPuzzleData();
+            d1.Day1Calc();
+
         }
     }
 }

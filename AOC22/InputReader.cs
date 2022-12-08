@@ -10,6 +10,7 @@ namespace AOC22
     class InputReader
     {
 
+        // Reads the raw data input from teh string and appends to a single list
         public List<string> ReadInputString(string path, bool allowEmptyRows)
         {
 
@@ -24,34 +25,33 @@ namespace AOC22
                 {
                     inputString.Add(line);
                 }
-                
             }
 
             return inputString;
-
-
         }
-        /*
-            using (StreamReader sr = new StreamReader(path))
+
+
+
+
+        // Reads the raw data input and groups according to the spaces
+        public List<int> ReadInputGroups(string path)
+        {
+            List<int> inputGroups = new List<int>();
+            var groupCount = 0;
+
+            foreach (string line in File.ReadLines(path))
             {
-                
-                String line;
+                if (line == "")
                 {
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        if (line != "")
-                        {
-                            
-                            
-                        }
-                        
-                    }
+                    inputGroups.Add(groupCount);
+                    groupCount = 0;
                 }
-
-                return inputString;
+                else 
+                { 
+                    groupCount += int.Parse(line); 
+                }
             }
-        */
-
-
+            return inputGroups;
+        }
     }
 }
