@@ -15,7 +15,6 @@ namespace AOC22
         {
             Day1 d1 = new Day1();
             d1.Day1Calc();
-
         }
     }
 }
