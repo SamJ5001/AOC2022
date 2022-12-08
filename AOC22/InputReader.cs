@@ -4,21 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace AOC22
 {
     class InputReader
     {
+        public string GetActualPath(string path)
+        {
+            string fullPath = StartAOC.InputBin.ToString() + path;
+            return fullPath;
+        }
 
-        // Reads the raw data input from teh string and appends to a single list
+        // Reads the raw data input from the string and appends to a single list
         public List<string> ReadInputString(string path, bool allowEmptyRows)
         {
-
+            string actualPath = GetActualPath(path);
             List<string> inputString = new List<string>();
 
             int lineCounter = 0;
 
-            foreach (string line in File.ReadLines(path))
+            foreach (string line in File.ReadLines(actualPath))
             {
                 lineCounter++;
                 if (line != "" || allowEmptyRows)
@@ -26,29 +32,93 @@ namespace AOC22
                     inputString.Add(line);
                 }
             }
-
             return inputString;
         }
 
 
+        // Reads the input and returns the number of lines. Nothing more, nothing less.
+        private string[] opp;
+        private string[] player;
+        public int RPSSetup(string path)
+        {
+            opp = new string[LineCount(path)];
+            player = new string[LineCount(path)];
 
+            Console.WriteLine("Length: " + opp.Length);
+
+            string actualPath = GetActualPath(path);
+            int lineCount = 0;
+            foreach (string line in File.ReadLines(actualPath))
+            {
+                
+                char[] chars = line.ToCharArray();
+
+                    opp[lineCount] = chars[0].ToString();
+                    player[lineCount] = chars[2].ToString();
+                lineCount++;
+            }
+            return lineCount;
+        }
+
+        public int RPSScore(int round)
+        {
+            int winScore = 0;
+            int shapeScore = 0;
+
+            switch (player[round])
+            {
+                case "X": // Rock
+                    if (opp[round] == "A") { winScore = 3; } // R
+                    else if (opp[round] == "B") { winScore = 0; } // P
+                    else if (opp[round] == "C") { winScore = 6; } // S
+                    shapeScore = 1;
+                    break;
+
+                case "Y": // Paper
+                    if (opp[round] == "A") { winScore = 6; } // R
+                    else if (opp[round] == "B") { winScore = 3; } // P
+                    else if (opp[round] == "C") { winScore = 0; } // S
+                    shapeScore = 2;
+                    break;
+
+                case "Z": // Scissors
+                    if (opp[round] == "A") { winScore = 0; } // R
+                    else if (opp[round] == "B") { winScore = 6; } // P
+                    else if (opp[round] == "C") { winScore = 3; } // S
+                    shapeScore = 3;
+                    break;
+            }
+            return winScore + shapeScore;
+        }
+
+        public int LineCount(string path)
+        {
+            string actualPath = GetActualPath(path);
+            int lineCount = 0;
+            foreach (string line in File.ReadLines(actualPath))
+            {
+                lineCount++;
+            }
+            return lineCount;
+        }
 
         // Reads the raw data input and groups according to the spaces
         public List<int> ReadInputGroups(string path)
         {
+            string actualPath = GetActualPath(path);
             List<int> inputGroups = new List<int>();
             var groupCount = 0;
 
-            foreach (string line in File.ReadLines(path))
+            foreach (string line in File.ReadLines(actualPath))
             {
                 if (line == "")
                 {
                     inputGroups.Add(groupCount);
                     groupCount = 0;
                 }
-                else 
-                { 
-                    groupCount += int.Parse(line); 
+                else
+                {
+                    groupCount += int.Parse(line);
                 }
             }
             return inputGroups;

@@ -16,7 +16,7 @@ namespace AOC22
 
         public void Day1Calc()
         {
-            Console.WriteLine("\n \n Starting Day 1 Calc: \n \n");
+            Console.WriteLine("\n \n Day 1 Calc:");
 
 
             int highestCount = CollectPuzzleData(false).Max();
@@ -31,25 +31,20 @@ namespace AOC22
             var index = sortedList.Count - 1;
             var counter = 0;
             int elfCount = 0;
-
             while (counter < count)
             {
                 elfCount += sortedList[index];
                 counter++;
                 index--;
             }
-
             return elfCount;
         }
-
-
 
         public List<int> CollectPuzzleData(bool sort)
         {
             inputReader = new InputReader();
-            string inputPath = StartAOC.InputBin.ToString() + "Input1.txt";
 
-            calorieList = inputReader.ReadInputGroups(inputPath);
+            calorieList = inputReader.ReadInputGroups("Input1.txt");
 
             if (sort) { calorieList.Sort(); }
 

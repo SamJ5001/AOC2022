@@ -8,13 +8,16 @@ namespace AOC22
 {
     internal class StartAOC
 
-        
     {
         public static string InputBin = @"D:\Repositories\AOC\AOC22\Inputs\";
         static void Main(string[] args)
         {
             Day1 d1 = new Day1();
+            Day2 d2 = new Day2();
+            d2.Day2Calc();
+
             d1.Day1Calc();
+            
         }
     }
 }
