@@ -44,8 +44,6 @@ namespace AOC22
             opp = new string[LineCount(path)];
             player = new string[LineCount(path)];
 
-            Console.WriteLine("Length: " + opp.Length);
-
             string actualPath = GetActualPath(path);
             int lineCount = 0;
             foreach (string line in File.ReadLines(actualPath))
@@ -60,7 +58,7 @@ namespace AOC22
             return lineCount;
         }
 
-        public int RPSScore(int round)
+        public int RPSScore2A(int round)
         {
             int winScore = 0;
             int shapeScore = 0;
@@ -90,6 +88,39 @@ namespace AOC22
             }
             return winScore + shapeScore;
         }
+
+        public int RPSScore2B(int round)
+        {
+            int winScore = 0;
+            int shapeScore = 0;
+
+            switch (player[round])
+            {
+                case "X": // Lose
+                    if (opp[round] == "A") { shapeScore = 3; } // R
+                    else if (opp[round] == "B") { shapeScore = 1; } // P
+                    else if (opp[round] == "C") { shapeScore = 2; } // S
+                    winScore = 0;
+                    break;
+
+                case "Y": // Draw
+                    if (opp[round] == "A") { shapeScore = 1; } // R
+                    else if (opp[round] == "B") { shapeScore = 2; } // P
+                    else if (opp[round] == "C") { shapeScore = 3; } // S
+                    winScore = 3;
+                    break;
+
+                case "Z": // Win
+                    if (opp[round] == "A") { shapeScore = 2; } // R
+                    else if (opp[round] == "B") { shapeScore = 3; } // P
+                    else if (opp[round] == "C") { shapeScore = 1; } // S
+                    winScore = 6;
+                    break;
+            }
+            return winScore + shapeScore;
+        }
+
+
 
         public int LineCount(string path)
         {
