@@ -1,0 +1,8 @@
+D:\Repositories\AOC\AOC22\Project1\bin\Debug\Project1.exe.config
+D:\Repositories\AOC\AOC22\Project1\bin\Debug\Project1.exe
+D:\Repositories\AOC\AOC22\Project1\bin\Debug\Project1.pdb
+D:\Repositories\AOC\AOC22\Project1\obj\Debug\AOCC22.csproj.AssemblyReference.cache
+D:\Repositories\AOC\AOC22\Project1\obj\Debug\AOCC22.csproj.SuggestedBindingRedirects.cache
+D:\Repositories\AOC\AOC22\Project1\obj\Debug\AOCC22.csproj.CoreCompileInputs.cache
+D:\Repositories\AOC\AOC22\Project1\obj\Debug\Project1.exe
+D:\Repositories\AOC\AOC22\Project1\obj\Debug\Project1.pdb
