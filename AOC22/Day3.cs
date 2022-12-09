@@ -8,20 +8,38 @@ using System.Runtime.CompilerServices;
 
 namespace AOC22
 {
+
+    class Badge
+    {
+        public int ID;
+        public int Number;
+   
+    }
+
     class Day3
     {
         private InputReader inputReader;
 
+        public Badge[] badgeArray;
+        private bool createFirstTime = true;
+
         public void Day3Calc()
         {
             inputReader = new InputReader();
+
+            Badge[] badgeArray = new Badge[inputReader.LineCount("Input3.txt")];
+
+            for (int i = 0; i < badgeArray.Length; i++)
+            {
+                badgeArray[i] = new Badge();
+                badgeArray[i].ID = i;
+            }
 
             int score = 0;
 
             string actualPath = inputReader.GetActualPath("Input3.txt");
             foreach (string line in File.ReadLines(actualPath))
             {
-                
                 var counter = 0;
 
                 int count = line.Length;
@@ -32,7 +50,7 @@ namespace AOC22
                 char[] chars = line.ToCharArray();
                 int[] nums = new int[count];
 
-                
+
                 for (int i = 0; i < chars.Length; i++)
                 {
                     nums[i] = ConvertStringPriority(chars[i]);
@@ -45,9 +63,9 @@ namespace AOC22
 
                 for (int i = count / 2; i < count; i++)
                 {
-                    BagB[i- BagB.Length] = nums[i];
+                    BagB[i - BagB.Length] = nums[i];
                 }
-                
+
                 for (int i = 0; i < BagA.Length; i++)
                 {
                     for (int j = 0; j < BagB.Length; j++)
@@ -58,15 +76,40 @@ namespace AOC22
                             Console.WriteLine("Bag A:" + BagA[i]);
                             Console.WriteLine("Bag B:" + BagB[j]);
                             score += BagA[i];
+
+                            badgeArray[i].Number = BagA[i];
+
                             counter++;
                             i = BagA.Length;
+
                             break;
                         }
                     }
                 }
+
             }
             Console.WriteLine("Day 3 Score: " + score);
+            GroupBadges();
+
         }
+
+        public void GroupBadges()
+        {
+            for (int i = 0; i < badgeArray.Length; i++)
+            {
+                for (int j = 0; j < badgeArray.Length; j++)
+                {
+                    if (i != j && badgeArray[i].ID == badgeArray[j].ID)
+                    {
+                        // I'm sweeping and comparing integers.
+
+
+                    }
+                }
+            }
+
+        }
+
 
         public int ConvertStringPriority(char input)
         {
@@ -181,6 +224,5 @@ namespace AOC22
             }
             return number;
         }
-
     }
 }
