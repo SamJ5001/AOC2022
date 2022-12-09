@@ -31,6 +31,7 @@ namespace AOC22
             {
                 totalScoreB += inputReader.RPSScore2B(i);
             }
+
             Console.WriteLine("\n \n Day 2B Calc: ");
             Console.WriteLine("Total Score: " + totalScoreB);
 
