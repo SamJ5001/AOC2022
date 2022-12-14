@@ -5,43 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace AOC22
 {
-
-    class Badge
-    {
-        public int ID;
-        public int Number;
-   
-    }
 
     class Day3
     {
         private InputReader inputReader;
 
-        public Badge[] badgeArray;
         private bool createFirstTime = true;
+
+        private int totalScoreB = 0;
 
         public void Day3Calc()
         {
             inputReader = new InputReader();
 
-            Badge[] badgeArray = new Badge[inputReader.LineCount("Input3.txt")];
+            string[] elfCluster = new string[(inputReader.LineCount("Input3.txt") / 3) + 1];
 
-            for (int i = 0; i < badgeArray.Length; i++)
-            {
-                badgeArray[i] = new Badge();
-                badgeArray[i].ID = i;
-            }
-
+            var counter = 0;
             int score = 0;
+
+            var groupCounter = 0;
+            var groupTicker = 0;
 
             string actualPath = inputReader.GetActualPath("Input3.txt");
             foreach (string line in File.ReadLines(actualPath))
             {
-                var counter = 0;
-
                 int count = line.Length;
 
                 int[] BagA = new int[count / 2];
@@ -55,6 +47,11 @@ namespace AOC22
                 {
                     nums[i] = ConvertStringPriority(chars[i]);
                 }
+                elfCluster[groupCounter] += (line.ToString() + '\n');
+
+                if (groupTicker > 2) { Day3BCalc(elfCluster[groupCounter]); ; groupTicker = 0; groupCounter++; }
+                groupTicker++;
+
 
                 for (int i = 0; i < count / 2; i++)
                 {
@@ -66,50 +63,65 @@ namespace AOC22
                     BagB[i - BagB.Length] = nums[i];
                 }
 
+                // 3A Calc
                 for (int i = 0; i < BagA.Length; i++)
                 {
                     for (int j = 0; j < BagB.Length; j++)
                     {
                         if (BagA[i] == BagB[j])
                         {
-                            Console.WriteLine(line);
-                            Console.WriteLine("Bag A:" + BagA[i]);
-                            Console.WriteLine("Bag B:" + BagB[j]);
                             score += BagA[i];
-
-                            badgeArray[i].Number = BagA[i];
-
                             counter++;
+
                             i = BagA.Length;
 
                             break;
                         }
                     }
                 }
-
             }
             Console.WriteLine("Day 3 Score: " + score);
-            GroupBadges();
-
         }
-
-        public void GroupBadges()
+        public void Day3BCalc(string str)
         {
-            for (int i = 0; i < badgeArray.Length; i++)
+
+            string[] elfs = str.Split('\n');
+            Array.Sort(elfs, (y, x) => x.Length.CompareTo(y.Length));
+
+            foreach (char c in elfs[0])
             {
-                for (int j = 0; j < badgeArray.Length; j++)
+                int count = 0;
+
+                for (int i = 0; i < elfs[1].Length; i++)
                 {
-                    if (i != j && badgeArray[i].ID == badgeArray[j].ID)
+                    if (c == elfs[1][i])
                     {
-                        // I'm sweeping and comparing integers.
-
-
+                        count++;
                     }
                 }
+
+                for (int j = 0; j < elfs[2].Length; j++)
+                {
+                    if (c == elfs[2][j])
+                    {
+                        count++;
+                    }
+                }
+
+                if (count == 2)
+                {
+                    Console.WriteLine(elfs[0] + " Contains" + c);
+                    Console.WriteLine(elfs[1] + " Contains" + c);
+                    Console.WriteLine(elfs[2] + " Contains" + c);
+
+                    count = 0;
+                    totalScoreB += ConvertStringPriority(c);
+                    Console.WriteLine(totalScoreB);
+                    return;
+
+                }
             }
-
         }
-
 
         public int ConvertStringPriority(char input)
         {

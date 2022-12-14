@@ -18,7 +18,6 @@ namespace AOC22
         {
             Console.WriteLine("\n \n Day 1 Calc:");
 
-
             int highestCount = CollectPuzzleData(false).Max();
             Console.WriteLine("Day 1 Solution - Highest Elf Calorie Count: " + highestCount);
 
