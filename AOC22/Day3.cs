@@ -14,22 +14,18 @@ namespace AOC22
     class Day3
     {
         private InputReader inputReader;
-
-        private bool createFirstTime = true;
-
         private int totalScoreB = 0;
+
+        int counter = 0;
+        int score = 0;
+        int groupCounter = 0;
+        int groupTicker = 1;
 
         public void Day3Calc()
         {
             inputReader = new InputReader();
 
             string[] elfCluster = new string[(inputReader.LineCount("Input3.txt") / 3) + 1];
-
-            var counter = 0;
-            int score = 0;
-
-            var groupCounter = 0;
-            var groupTicker = 0;
 
             string actualPath = inputReader.GetActualPath("Input3.txt");
             foreach (string line in File.ReadLines(actualPath))
@@ -42,7 +38,6 @@ namespace AOC22
                 char[] chars = line.ToCharArray();
                 int[] nums = new int[count];
 
-
                 for (int i = 0; i < chars.Length; i++)
                 {
                     nums[i] = ConvertStringPriority(chars[i]);
@@ -51,7 +46,6 @@ namespace AOC22
 
                 if (groupTicker > 2) { Day3BCalc(elfCluster[groupCounter]); ; groupTicker = 0; groupCounter++; }
                 groupTicker++;
-
 
                 for (int i = 0; i < count / 2; i++)
                 {
@@ -80,45 +74,29 @@ namespace AOC22
                     }
                 }
             }
-            Console.WriteLine("Day 3 Score: " + score);
+            Console.WriteLine("\n\nDay 3A Calc: " + score);
+            Console.WriteLine("Day 3B Calc: " + totalScoreB);
         }
         public void Day3BCalc(string str)
         {
-
             string[] elfs = str.Split('\n');
             Array.Sort(elfs, (y, x) => x.Length.CompareTo(y.Length));
 
             foreach (char c in elfs[0])
             {
-                int count = 0;
-
                 for (int i = 0; i < elfs[1].Length; i++)
                 {
                     if (c == elfs[1][i])
                     {
-                        count++;
+                        for (int j = 0; j < elfs[2].Length; j++)
+                        {
+                            if (c == elfs[2][j])
+                            {
+                                totalScoreB += ConvertStringPriority(c);
+                                return;
+                            }
+                        }
                     }
-                }
-
-                for (int j = 0; j < elfs[2].Length; j++)
-                {
-                    if (c == elfs[2][j])
-                    {
-                        count++;
-                    }
-                }
-
-                if (count == 2)
-                {
-                    Console.WriteLine(elfs[0] + " Contains" + c);
-                    Console.WriteLine(elfs[1] + " Contains" + c);
-                    Console.WriteLine(elfs[2] + " Contains" + c);
-
-                    count = 0;
-                    totalScoreB += ConvertStringPriority(c);
-                    Console.WriteLine(totalScoreB);
-                    return;
-
                 }
             }
         }
