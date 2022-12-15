@@ -154,10 +154,5 @@ namespace AOC22
             }
             return inputGroups;
         }
-
-
-
-
-
     }
 }
