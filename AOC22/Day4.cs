@@ -11,9 +11,6 @@ namespace AOC22
 {
     class Day4
     {
-
-
-
         public void Day4Calc()
         {
             int shareCountA = 0;
