@@ -14,13 +14,11 @@ namespace AOC22
         public int rowID;
         public int currentHeight;
         char[] crates;
-
         private int totalCrates = 0;
-
 
         public Stack(int rowID)
         {
-            crates = new char[10];
+            crates = new char[200];
             this.rowID = rowID;
         }
 
@@ -28,7 +26,6 @@ namespace AOC22
         {
             crates[height] = crate;
             if (crate != ' ') { totalCrates++; }
-            
         }
 
         public void LockHeightSetup()
@@ -48,11 +45,11 @@ namespace AOC22
             currentHeight--;
         }
 
-        public char IDTopCrate()
+        public char IDTopCrate(bool report)
         {
-            Console.WriteLine("IDing crate {0} on stack {1}", crates[currentHeight], rowID);
+            //      
+            if (report) { Console.WriteLine("Top crate on stack {1} -> {0}", crates[currentHeight], rowID); }
             return crates[currentHeight];
-            
         }
     }
 
@@ -62,11 +59,10 @@ namespace AOC22
         {
             for (int i = 0; i < quant; i++)
             {
-                char pickup = stacks[start-1].IDTopCrate();
-                stacks[start-1].RemoveCrate();
-                stacks[end-1].AddCrate(pickup);
-
-                Console.WriteLine("Moving for the {0}th time - crate {1} from Stack {2} to Stack {3}", quant, pickup, start, end);
+                char pickup = stacks[start - 1].IDTopCrate(false);
+                stacks[start - 1].RemoveCrate();
+                stacks[end - 1].AddCrate(pickup);
+           //     Console.WriteLine("Moving for the {0}th time - crate {1} from Stack {2} to Stack {3}", quant, pickup, start, end);
             }
         }
 
@@ -109,19 +105,41 @@ namespace AOC22
             for (int i = 0; i < stacks.Length; i++)
             {
                 stacks[i].LockHeightSetup();
-                stacks[i].IDTopCrate();
+                stacks[i].IDTopCrate(false);
 
             }
-
-                 Instruction(2, 2, 5, stacks);
 
             for (int i = 0; i < stacks.Length; i++)
             {
-                stacks[i].IDTopCrate();
+                stacks[i].IDTopCrate(false);
             }
 
-        }
+            // I NEED TO READ THROUGH AND EXECUTE ALL INSTRUCTIONS HERE
+            lineCount = 0;
+            foreach (string line in File.ReadLines(actualPath))
+            {
+                if (lineCount > 9)
+                {
+                    string[] inst = line.Split(' ');
 
+                    for (int i = 0; i < inst.Length; i++)
+                    {
+                        //      Console.WriteLine(inst[i]);
+                    }
+                    Console.WriteLine(inst[1]);
+                    Console.WriteLine(inst[3]);
+                    Console.WriteLine(inst[5]);
+
+                    Instruction(Int32.Parse(inst[1]), Int32.Parse(inst[3]), Int32.Parse(inst[5]), stacks);
+                }
+                lineCount++;
+            }
+
+            for (int i = 0; i < stacks.Length; i++)
+            {
+                stacks[i].IDTopCrate(true);
+            }
+        }
 
         public void FillStackSetup(int id, int height, char crate, Stack[] stacks)
         {
