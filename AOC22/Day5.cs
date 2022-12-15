@@ -27,8 +27,8 @@ namespace AOC22
         public void SetupCrate(int height, char crate)
         {
             crates[height] = crate;
-            totalCrates++;
-            Console.WriteLine("Crate {0} - Height {1} -> {2}", rowID, height, crate);
+            if (crate != ' ') { totalCrates++; }
+            
         }
 
         public void LockHeightSetup()
@@ -41,10 +41,35 @@ namespace AOC22
             currentHeight++;
             crates[currentHeight] = crate;
         }
+
+        public void RemoveCrate()
+        {
+            crates[currentHeight] = ' ';
+            currentHeight--;
+        }
+
+        public char IDTopCrate()
+        {
+            Console.WriteLine("IDing crate {0} on stack {1}", crates[currentHeight], rowID);
+            return crates[currentHeight];
+            
+        }
     }
 
     class Day5
     {
+        public void Instruction(int quant, int start, int end, Stack[] stacks)
+        {
+            for (int i = 0; i < quant; i++)
+            {
+                char pickup = stacks[start-1].IDTopCrate();
+                stacks[start-1].RemoveCrate();
+                stacks[end-1].AddCrate(pickup);
+
+                Console.WriteLine("Moving for the {0}th time - crate {1} from Stack {2} to Stack {3}", quant, pickup, start, end);
+            }
+        }
+
         public void Day5Calc()
         {
 
@@ -84,7 +109,17 @@ namespace AOC22
             for (int i = 0; i < stacks.Length; i++)
             {
                 stacks[i].LockHeightSetup();
+                stacks[i].IDTopCrate();
+
             }
+
+                 Instruction(2, 2, 5, stacks);
+
+            for (int i = 0; i < stacks.Length; i++)
+            {
+                stacks[i].IDTopCrate();
+            }
+
         }
 
 
